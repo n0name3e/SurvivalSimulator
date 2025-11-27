@@ -15,6 +15,11 @@ public class Inventory : MonoBehaviour
     // list that contains all slots for items in inventory
     public GameObject[] inventorySlots = new GameObject[20];
     //public List<GameObject> itemGameObjects = new List<GameObject>();
+    public GameObject toolSlotUI;
+
+    public Transform handTransform;
+    public GameObject toolObject;
+    public Tool equippedTool;
 
     private void Awake()
     {
@@ -92,7 +97,37 @@ public class Inventory : MonoBehaviour
             FreeSlots();
         }*/
     }
+    public void EquipTool(Tool tool)
+    {
+        if (equippedTool != null)
+        {
+            AddItem(equippedTool, 1);
+            Destroy(toolObject);
+        }
+        equippedTool = tool;
+        toolObject = Instantiate(tool.toolPrefab, handTransform);
 
+        new ItemObject(tool, 1, toolSlotUI);
+    }
+    public void SwingWithTool()
+    {
+        toolObject.GetComponent<Animator>().Play("Swing");
+    }
+
+    // called from HandsAnimatorHandler 
+    public void HitWithTool()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 3f))
+        {
+            if (hit.collider.GetComponent<WorldRecource>() != null)
+            {
+                hit.collider.GetComponent<WorldRecource>().TakeDamage(25);
+            }
+        }
+        print("hit with tool" );
+    }
     public ItemObject FindItem(Item item)
     {
         foreach (ItemObject itemObject in items)
@@ -136,6 +171,10 @@ public class Inventory : MonoBehaviour
             if (items[index].item is Consumable consumable)
             {
                 consumable.Use(player);
+            }
+            if (items[index].item is Tool tool)
+            {
+                EquipTool(tool);
             }
             RemoveItem(items[index], 1);
             UI.instance.UpdateStatsText();
