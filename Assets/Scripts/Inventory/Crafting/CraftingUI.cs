@@ -47,7 +47,7 @@ public class CraftingUI : MonoBehaviour
         foreach (CraftingIngredient ingredient in recipe.ingredients)
         {
             ingredientsStr += $"- {ingredient.item.name} " +
-                $"({ingredient.quantity}/{Inventory.instance.GetItemCount(ingredient.item)})\n";
+                $"({ingredient.quantity}/{Inventory.Instance.GetItemCount(ingredient.item)})\n";
         }
         //ingredientsText.text = ingredientsStr;
 

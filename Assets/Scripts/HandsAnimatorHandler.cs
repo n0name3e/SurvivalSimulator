@@ -14,7 +14,7 @@ public class HandsAnimatorHandler : MonoBehaviour
     // called in animation in certain frame
     public void Hit()
     {
-        Inventory.instance.HitWithTool();
+        PlayerToolController.Instance.HitWithTool();
         print("Hit called from animation");
     }
 }

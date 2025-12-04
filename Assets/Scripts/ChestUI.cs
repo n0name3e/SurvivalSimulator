@@ -58,7 +58,7 @@ public class ChestUI : MonoBehaviour
         if (openedChest.items[index]?.item == null) 
             return; 
 
-        Inventory.instance.AddItem(openedChest.items[index].item, 1); 
+        Inventory.Instance.AddItem(openedChest.items[index].item, 1); 
         RemoveItem(index);
     }
     public void RemoveItem(int index)

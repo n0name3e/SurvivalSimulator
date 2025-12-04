@@ -15,7 +15,7 @@ public class CraftingManager : MonoBehaviour
         foreach (CraftingIngredient ingredient in recipe.ingredients)
         {
             // Check if the player has enough of this ingredient
-            if (Inventory.instance.GetItemCount(ingredient.item) < ingredient.quantity)
+            if (Inventory.Instance.GetItemCount(ingredient.item) < ingredient.quantity)
             {
                 return false; // Not enough
             }
@@ -34,11 +34,11 @@ public class CraftingManager : MonoBehaviour
         // 1. Consume the ingredients
         foreach (CraftingIngredient ingredient in recipe.ingredients)
         {
-            Inventory.instance.RemoveItem(Inventory.instance.FindItem(ingredient.item), ingredient.quantity);
+            Inventory.Instance.RemoveItem(Inventory.Instance.FindItem(ingredient.item), ingredient.quantity);
         }
 
         // 2. Give the crafted item
-        Inventory.instance.AddItem(recipe.craftedItem, recipe.craftedItemQuantity);
+        Inventory.Instance.AddItem(recipe.craftedItem, recipe.craftedItemQuantity);
 
         Debug.Log("Crafted " + recipe.craftedItem.name);
 

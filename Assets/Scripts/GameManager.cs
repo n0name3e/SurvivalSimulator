@@ -18,12 +18,14 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        Cursor.lockState = CursorLockMode.Locked;
     }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             menuOpened = !menuOpened;
+            Cursor.lockState = menuOpened ? CursorLockMode.None : CursorLockMode.Locked;
             ShowInventory();
             ShowCraftingUI(menuOpened);
             ChestUI.instance.DisableChestContainer();
@@ -38,6 +40,8 @@ public class GameManager : MonoBehaviour
     public void OpenChest(Chest chest)
     {
         menuOpened = !menuOpened;
+
+        Cursor.lockState = menuOpened ? CursorLockMode.None : CursorLockMode.Locked;
 
         ShowInventory();
         ChestUI.instance.ShowChestUI(chest);

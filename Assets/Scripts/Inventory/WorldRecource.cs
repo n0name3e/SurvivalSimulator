@@ -19,7 +19,7 @@ public class WorldRecource : MonoBehaviour
     }
     private void Die()
     {
-        Inventory.instance.AddItem(droppedItem, droppedItemAmount);
+        Inventory.Instance.AddItem(droppedItem, droppedItemAmount);
         Destroy(gameObject);
     }
 }

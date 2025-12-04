@@ -31,7 +31,13 @@ public class PlayerMovement : MonoBehaviour
 
     // Internal
     private CharacterController characterController;
-    private Vector3 velocity; // used for vertical velocity (gravity + jump)
+    private Vector3 _velocity; // backing field
+
+    public Vector3 velocity
+    {
+        get { return _velocity; }
+        private set { _velocity = value; }
+    }
     private Vector3 moveInput; // x/z input
     private Vector3 cameraOriginalLocalPos;
     private float bobTimer = 0f;
@@ -73,19 +79,18 @@ public class PlayerMovement : MonoBehaviour
         // Apply gravity
         if (characterController.isGrounded)
         {
-            if (velocity.y < 0)
-                velocity.y = -2f; // Small negative to keep grounded
+            if (_velocity.y < 0)
+                _velocity.y = -2f; // Small negative to keep grounded
 
             if (Input.GetButtonDown("Jump"))
             {
-                // v = sqrt(2 * g * h) but gravity is negative, so use -2 * gravity
-                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                _velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             }
         }
 
-        velocity.y += gravity * Time.deltaTime;
+        _velocity.y += gravity * Time.deltaTime;
 
-        Vector3 finalMove = currentHorizontalVelocity + new Vector3(0, velocity.y, 0);
+        Vector3 finalMove = currentHorizontalVelocity + new Vector3(0, _velocity.y, 0);
         characterController.Move(finalMove * Time.deltaTime);
     }
 

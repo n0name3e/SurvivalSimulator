@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
-    public static Inventory instance { get; private set; }
+    public static Inventory Instance { get; private set; }
 
     public List<ItemObject> startingItems;
 
@@ -17,16 +17,12 @@ public class Inventory : MonoBehaviour
     //public List<GameObject> itemGameObjects = new List<GameObject>();
     public GameObject toolSlotUI;
 
-    public Transform handTransform;
-    public GameObject toolObject;
-    public Tool equippedTool;
-
     private void Awake()
     {
-        if (instance != null)
+        if (Instance != null)
             Destroy(gameObject);
         else
-            instance = this;
+            Instance = this;
 
         foreach (ItemObject item in startingItems)
         {
@@ -97,6 +93,7 @@ public class Inventory : MonoBehaviour
             FreeSlots();
         }*/
     }
+    /*
     public void EquipTool(Tool tool)
     {
         if (equippedTool != null)
@@ -127,7 +124,7 @@ public class Inventory : MonoBehaviour
             }
         }
         print("hit with tool" );
-    }
+    }*/
     public ItemObject FindItem(Item item)
     {
         foreach (ItemObject itemObject in items)
@@ -167,14 +164,16 @@ public class Inventory : MonoBehaviour
     {
         if (items[index] != null && items[index].item != null)
         {
-            items[index]?.UseItem();
+            //items[index]?.UseItem();
             if (items[index].item is Consumable consumable)
             {
                 consumable.Use(player);
             }
             if (items[index].item is Tool tool)
             {
-                EquipTool(tool);
+                PlayerToolController.Instance.EquipTool(tool);
+
+                new ItemObject(tool, 1, toolSlotUI);
             }
             RemoveItem(items[index], 1);
             UI.instance.UpdateStatsText();
